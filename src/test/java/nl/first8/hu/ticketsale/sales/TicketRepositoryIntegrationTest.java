@@ -72,7 +72,7 @@ public class TicketRepositoryIntegrationTest {
 
 
         final Ticket ticket = testRepository.findTicket(concert, account);
-        assertThat(ticket.getConcert().getArtist(), is(concert.getArtist()));
+        assertThat(ticket.getConcert().getArtist().getName(), is(concert.getArtist().getName()));
         assertThat(ticket.getConcert().getLocation().getName(), is(concert.getLocation().getName()));
     }
 
