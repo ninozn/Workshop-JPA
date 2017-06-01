@@ -1,0 +1,45 @@
+package nl.first8.hu.ticketsale.venue;
+
+import nl.first8.hu.ticketsale.artistInfo.Artist;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
+
+import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
+import java.util.List;
+import java.util.Optional;
+
+@Repository
+public class ConcertRepository {
+
+    private final EntityManager entityManager;
+
+    @Autowired
+    public ConcertRepository(EntityManager entityManager) {
+        this.entityManager = entityManager;
+    }
+
+    public List<Concert> findAll() {
+        return entityManager.createQuery("SELECT c FROM Concert c", Concert.class).getResultList();
+    }
+
+    List<Concert> findByName(String name) {
+        try {
+            Optional<Artist> artist = Optional.of(entityManager.createQuery("SELECT a FROM Artist a WHERE a.name =:name", Artist.class)
+                    .setParameter("name", name)
+                    .getResultList().get(0));
+           if(artist.isPresent()) {
+               return entityManager
+                       .createQuery("SELECT c FROM Concert c WHERE c.artist.id =:artistid", Concert.class)
+                       .setParameter("artistid", artist.get().getId())
+                       .getResultList();
+           }
+           else{
+               return null;
+           }
+        } catch (NoResultException ex) {
+            return null;
+        }
+    }
+
+}
