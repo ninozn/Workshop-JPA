@@ -33,6 +33,7 @@ public class SalesService {
         insertSale(accountId, ticketId, price, Date.from(Instant.now()));
     }
 
+    @Transactional(value = Transactional.TxType.REQUIRES_NEW, dontRollbackOn = AuditTrial.class)
     protected void insertSale(Long accountId, Long concertId, Integer price, final Date timestamp) {
         Account account = registrationRepository.findById(accountId).orElseThrow(() -> new RuntimeException("Unknown account Id " + accountId));
         Concert concert = venueRepository.findConcertById(concertId).orElseThrow(() -> new RuntimeException("Unknown concert Id " + concertId));
@@ -45,6 +46,11 @@ public class SalesService {
         sale.setPrice(price);
         sale.setSellDate(timestamp);
 
+        AuditTrial auditTrial = new AuditTrial(sale.getId(), account.getId());
+
+        sale.setAuditTrial(auditTrial);
+
+        salesRepository.insert(auditTrial);
         salesRepository.insert(sale);
     }
 

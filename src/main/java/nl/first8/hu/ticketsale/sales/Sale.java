@@ -12,6 +12,8 @@ import javax.persistence.OneToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.constraints.Min;
+
+import com.sun.istack.internal.Nullable;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -30,6 +32,10 @@ public class Sale implements Serializable {
         ,
         @JoinColumn(name = "ticket_concert_id", referencedColumnName = "concert_id")})
     private Ticket ticket;
+
+    @OneToOne
+    @Nullable
+    private AuditTrial auditTrial;
 
     @Temporal(TemporalType.TIMESTAMP)
     private Date sellDate;

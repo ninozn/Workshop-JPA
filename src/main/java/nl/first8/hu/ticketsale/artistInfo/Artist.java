@@ -25,7 +25,7 @@ public class Artist implements Serializable{
     @Enumerated(EnumType.STRING)
     private Genre genre;
 
-    @JsonIgnore //was needed because TestRepositoryIntegrationTest.testGetTicket caused a NestedServletException error. Don't know why...
+    @JsonIgnore //was needed because TestRepositoryIntegrationTest.testGetTicket caused a NestedServletException error. Probably because of ManytoMany at both Artist and Concert.
     @OneToMany(mappedBy = "artist")
     private List<Concert> concerts;
 }
