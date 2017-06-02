@@ -38,6 +38,10 @@ public class SalesRepository {
         entityManager.persist(auditTrial);
     }
 
+    public void update(final Sale sale) {
+        entityManager.merge(sale);
+    }
+
 
     Optional<Sale> findSaleByTicket(final Ticket ticket) {
 

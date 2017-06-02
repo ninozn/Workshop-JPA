@@ -12,7 +12,7 @@ CREATE TABLE sale (
 
   ticket_account_id BIGINT NOT NULL,
   ticket_concert_id  BIGINT NOT NULL,
-  audit_trial_id BIGINT NOT NULL,
+  audit_trial_id BIGINT,
 
   CONSTRAINT pk_sale PRIMARY KEY(id),
   CONSTRAINT fk_account_id FOREIGN KEY (ticket_account_id) REFERENCES ticket(account_id),

@@ -46,13 +46,13 @@ public class SalesService {
         sale.setPrice(price);
         sale.setSellDate(timestamp);
 
-        AuditTrial auditTrial = new AuditTrial(sale.getId(), account.getId());
+        salesRepository.insert(sale);
 
+        AuditTrial auditTrial = new AuditTrial(sale.getId(), account.getId());
         sale.setAuditTrial(auditTrial);
 
         salesRepository.insert(auditTrial);
-        salesRepository.insert(sale);
-
+        salesRepository.update(sale);
     }
 
     public Optional<Sale> getSale(Long accountId, Long concertId) {
