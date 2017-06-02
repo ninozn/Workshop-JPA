@@ -7,6 +7,7 @@ import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
@@ -26,62 +27,36 @@ public class ConcertRepository {
 
     List<Concert> findByName(String name) {
         try {
-            Optional<Artist> artist = Optional.of(entityManager.createQuery("SELECT a FROM Artist a WHERE a.name =:name", Artist.class)
-                    .setParameter("name", name)
-                    .getResultList().get(0));
-           if(artist.isPresent()) {
-               return entityManager
-                       .createQuery("SELECT c FROM Concert c WHERE c.artist.id =:artistid", Concert.class)
-                       .setParameter("artistid", artist.get().getId())
-                       .getResultList();
-           }
-           else{
-               return null;
-           }
+            return entityManager
+                    .createQuery("SELECT c FROM Concert c WHERE c.artist.name =:artistName", Concert.class)
+                    .setParameter("artistName", name)
+                    .getResultList();
+
         } catch (NoResultException ex) {
-            return null;
+            return Collections.emptyList();
         }
     }
 
     List<Concert> findByGenre(String genre) {
-
         try {
-            List<Long> artist = entityManager.createQuery("SELECT a.id FROM Artist a WHERE UPPER(a.genre) = :genre", Long.class)
-                    .setParameter("genre", Genre.valueOf(genre.toUpperCase()))
+            return entityManager
+                    .createQuery("SELECT c FROM Concert c WHERE c.artist.genre IN :artistGenre", Concert.class)
+                    .setParameter("artistGenre", Genre.valueOf(genre.toUpperCase()))
                     .getResultList();
-
-            if(artist.size() > 0) {
-                return entityManager
-                        .createQuery("SELECT c FROM Concert c WHERE c.artist.id IN :artistid", Concert.class)
-                        .setParameter("artistid", artist)
-                        .getResultList();
-            }
-            else{
-                return null;
-            }
         } catch (NoResultException ex) {
             return null;
-        } catch (IllegalArgumentException iae){
+        } catch (IllegalArgumentException iae) {
             return null;
         }
     }
 
     List<Concert> findByLocation(String locationName) {
-
         try {
-            Optional<Location> location = Optional.of(entityManager.createQuery("SELECT l FROM Location l WHERE UPPER(l.name) =:locationName", Location.class)
+            return entityManager
+                    .createQuery("SELECT c FROM Concert c WHERE UPPER(c.location.name) = :locationName", Concert.class)
                     .setParameter("locationName", locationName.toUpperCase())
-                    .getResultList().get(0));
+                    .getResultList();
 
-            if(location.isPresent()) {
-                return entityManager
-                        .createQuery("SELECT c FROM Concert c WHERE c.location.id = :locationid", Concert.class)
-                        .setParameter("locationid", location.get().getId())
-                        .getResultList();
-            }
-            else{
-                return null;
-            }
         } catch (NoResultException ex) {
             return null;
         }
