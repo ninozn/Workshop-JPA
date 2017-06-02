@@ -66,4 +66,24 @@ public class ConcertRepository {
         }
     }
 
+    List<Concert> findByLocation(String locationName) {
+
+        try {
+            Optional<Location> location = Optional.of(entityManager.createQuery("SELECT l FROM Location l WHERE UPPER(l.name) =:locationName", Location.class)
+                    .setParameter("locationName", locationName.toUpperCase())
+                    .getResultList().get(0));
+
+            if(location.isPresent()) {
+                return entityManager
+                        .createQuery("SELECT c FROM Concert c WHERE c.location.id = :locationid", Concert.class)
+                        .setParameter("locationid", location.get().getId())
+                        .getResultList();
+            }
+            else{
+                return null;
+            }
+        } catch (NoResultException ex) {
+            return null;
+        }
+    }
 }

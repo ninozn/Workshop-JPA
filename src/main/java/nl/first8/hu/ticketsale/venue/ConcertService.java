@@ -29,4 +29,7 @@ public class ConcertService {
         return concertRepository.findByGenre(genre);
     }
 
+    public List<Concert> getByLocation(@NonNull final String location) {
+        return concertRepository.findByLocation(location);
+    }
 }

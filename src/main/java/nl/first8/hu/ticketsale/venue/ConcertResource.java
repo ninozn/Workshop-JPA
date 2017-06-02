@@ -40,4 +40,9 @@ public class ConcertResource {
         return service.getByGenre(genre);
     }
 
+    @GetMapping(path = "/location/{location:.+}")
+    public List<Concert> getByLocation(@PathVariable("location") final String location) {
+        return service.getByLocation(location);
+    }
+
 }

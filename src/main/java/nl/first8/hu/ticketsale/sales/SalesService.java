@@ -52,6 +52,7 @@ public class SalesService {
 
         salesRepository.insert(auditTrial);
         salesRepository.insert(sale);
+
     }
 
     public Optional<Sale> getSale(Long accountId, Long concertId) {
