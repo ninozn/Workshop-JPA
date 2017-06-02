@@ -1,6 +1,7 @@
 package nl.first8.hu.ticketsale.venue;
 
 import nl.first8.hu.ticketsale.artistInfo.Artist;
+import nl.first8.hu.ticketsale.artistInfo.Genre;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
@@ -38,6 +39,29 @@ public class ConcertRepository {
                return null;
            }
         } catch (NoResultException ex) {
+            return null;
+        }
+    }
+
+    List<Concert> findByGenre(String genre) {
+
+        try {
+            List<Long> artist = entityManager.createQuery("SELECT a.id FROM Artist a WHERE UPPER(a.genre) = :genre", Long.class)
+                    .setParameter("genre", Genre.valueOf(genre.toUpperCase()))
+                    .getResultList();
+
+            if(artist.size() > 0) {
+                return entityManager
+                        .createQuery("SELECT c FROM Concert c WHERE c.artist.id IN :artistid", Concert.class)
+                        .setParameter("artistid", artist)
+                        .getResultList();
+            }
+            else{
+                return null;
+            }
+        } catch (NoResultException ex) {
+            return null;
+        } catch (IllegalArgumentException iae){
             return null;
         }
     }

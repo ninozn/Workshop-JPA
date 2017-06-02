@@ -3,6 +3,7 @@ package nl.first8.hu.ticketsale.registration;
 import java.util.List;
 import java.util.Optional;
 import javax.transaction.Transactional;
+
 import lombok.NonNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -26,7 +27,7 @@ public class RegistrationService {
      * Updates the e-mail address of the Account identified by the given
      * <code>id</code>.
      *
-     * @param id the id of the Account to update
+     * @param id           the id of the Account to update
      * @param emailAddress the email address to update
      * @return the updated Account that reflects the change made by this
      * operation
@@ -42,7 +43,7 @@ public class RegistrationService {
      * Updates the AccountInfo of the Account identified by the given
      * <code>id</code>.
      *
-     * @param id the id of the Account to update
+     * @param id   the id of the Account to update
      * @param info the new or updated AccountInfo
      * @return the updated Account that reflects the change made by this
      * operation

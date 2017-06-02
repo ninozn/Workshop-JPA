@@ -25,4 +25,8 @@ public class ConcertService {
         return concertRepository.findByName(name);
     }
 
+    public List<Concert> getByGenre(@NonNull final String genre) {
+        return concertRepository.findByGenre(genre);
+    }
+
 }

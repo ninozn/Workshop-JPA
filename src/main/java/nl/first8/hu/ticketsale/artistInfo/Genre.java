@@ -7,5 +7,6 @@ public enum Genre {
     KLASSIEK,
     POP,
     ROCK,
-    HARDSTYLE
+    HARDSTYLE,
+    METAL
 }

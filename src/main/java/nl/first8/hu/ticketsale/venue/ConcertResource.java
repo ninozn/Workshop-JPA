@@ -35,4 +35,9 @@ public class ConcertResource {
         return service.getByName(name);
     }
 
+    @GetMapping(path = "/artistgenre/{genre:.+}")
+    public List<Concert> getByGenre(@PathVariable("genre") final String genre) {
+        return service.getByGenre(genre);
+    }
+
 }
